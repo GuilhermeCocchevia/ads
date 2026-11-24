@@ -40,10 +40,4 @@ public class Evento {
     public void setPrecoBase(double precoBase) {
         this.precoBase = precoBase;
     }
-
-    public void getEvento(String nome, int capacidade, double precoBase) {
-        this.nome = nome;
-        this.capacidade = capacidade;
-        this.precoBase = precoBase;
-    }
 }

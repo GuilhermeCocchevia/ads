@@ -1,6 +1,7 @@
 package ingressos.servico;
 
 import ingressos.excecoes.IngressoInvalidoException;
+import ingressos.interfaces.Validavel;
 import ingressos.modelo.Evento;
 import ingressos.modelo.Ingresso;
 import ingressos.modelo.StatusIngresso;
@@ -59,6 +60,12 @@ public class Bilheteria {
 
     /** Busca pelo código (botão Pesquisar). */
     public Ingresso pesquisar(int codigo) throws IngressoInvalidoException {
+        // método static da interface: chamado pelo nome dela, sem precisar de objeto [POO_10]
+        // vale também para a catraca e o cancelamento, que chamam o pesquisar
+        if (!Validavel.codigoValido(codigo)) {
+            throw new IngressoInvalidoException("Código inválido: deve ser maior que zero.");
+        }
+
         for (Ingresso i : ingressos) {
             if (i.getCodigo() == codigo) {
                 return i;

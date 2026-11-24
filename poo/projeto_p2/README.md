@@ -5,8 +5,7 @@ Tema 08: Sistema orientado a objetos em memória (Swing + Java Collections).
 
 ## Dupla
 | Nome | RA |
-|------|----|
-| Maurício Jampani de Souza | (RA) |
+| Maurício Jampani de Souza | 1630482523023 |
 | Guilherme Rocha Cocchevia | (RA) |
 
 ## O sistema
@@ -29,7 +28,35 @@ src/ingressos/
 └── visao/           TelaIngressos (janela Swing)
 ```
 
-A descrição de cada classe é completada conforme a implementação avança.
+### Venda e consulta (Maurício)
+- **`Evento`**: nome, capacidade (lotação máxima) e preço base da inteira, com getters e setters.
+- **`StatusIngresso`** (enum): as três situações de um ingresso: `VENDIDO`, `UTILIZADO` e
+  `CANCELADO`.
+- **`Ingresso`** (classe abstrata): código, comprador, evento e status. O código é a identidade
+  do bilhete e por isso não tem setter.
+  - `equals` e `hashCode`: dois ingressos são o mesmo se têm o mesmo código. São usados pelo
+    `contains` da lista e por coleções como o `HashSet`.
+  - `compareTo` (`Comparable<Ingresso>`): ordem natural pelo código, usada pelo `Collections.sort`.
+  - `toString`: a linha mostrada na tela (código, tipo, comprador, preço e status). Chama
+    `getTipo()` e `calcularPreco()`, que são abstratos: cada subclasse responde do seu jeito
+    (polimorfismo).
+- **`IngressoInteira`** / **`IngressoMeia`**: `calcularPreco()` devolve o preço base ou a metade
+  dele.
+- **`IngressoInvalidoException`**: exceção verificada (*checked*) do sistema. A mensagem dela é
+  mostrada ao usuário.
+- **`Bilheteria`**:
+  - `vender(...)`: barra a venda se o evento estiver lotado (ingresso cancelado libera a vaga) ou se
+    for meia sem documento. Cria a inteira ou a meia com o próximo código sequencial e guarda na
+    lista.
+  - `pesquisar(codigo)`: confere o código com o método `static` `Validavel.codigoValido()` e procura
+    na lista. Se não achar, lança `IngressoInvalidoException`. Também é usado pela catraca e pelo
+    cancelamento.
+  - `ordenar()`: `Collections.sort` na lista, pela ordem natural do `Ingresso`.
+- **`TelaIngressos`**: layout da janela (`setBounds` e `JScrollPane`), opção de meia com
+  `JCheckBox` e os botões Cadastrar, Pesquisar, Ordenar e Sair. Código digitado errado
+  (`NumberFormatException`) e erros de negócio (`IngressoInvalidoException`) aparecem num
+  `JOptionPane`. O Sair e o fechamento da janela (`WindowListener`) pedem confirmação.
+- **`Principal`**: ponto de entrada; cria a tela e a torna visível.
 
 ### Portaria e relatório (Guilherme)
 - **`Validavel`** (interface): método `default` `gerarComprovanteAcesso()`, que devolve
