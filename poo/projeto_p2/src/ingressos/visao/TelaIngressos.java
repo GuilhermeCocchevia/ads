@@ -31,7 +31,8 @@ public class TelaIngressos extends JFrame implements ActionListener, WindowListe
     private final JButton btnProcessar = new JButton("Processar Operação");
     private final JButton btnOrdenar = new JButton("Ordenar");
     private final JButton btnSair = new JButton("Sair");
-    // TODO (Guilherme): botões Cancelar e Relatório
+    private final JButton btnCancelar = new JButton("Cancelar");
+    private final JButton btnRelatorio = new JButton("Relatório");
 
     private final JTextArea txtRelatorio = new JTextArea();
 
@@ -77,7 +78,11 @@ public class TelaIngressos extends JFrame implements ActionListener, WindowListe
         btnSair.setBounds(540, 135, 100, 30);
         add(btnSair);
 
-        // TODO (Guilherme): linha y=175 reservada para Cancelar e Relatório
+        // segunda linha de botões: cancelamento e relatório
+        btnCancelar.setBounds(20, 175, 110, 30);
+        add(btnCancelar);
+        btnRelatorio.setBounds(140, 175, 110, 30);
+        add(btnRelatorio);
 
         // área de texto dentro de um JScrollPane (barra de rolagem)
         // quem vai para a janela é o JScrollPane, não a JTextArea
@@ -86,7 +91,8 @@ public class TelaIngressos extends JFrame implements ActionListener, WindowListe
         rolagem.setBounds(20, 220, 645, 220);
         add(rolagem);
 
-        for (JButton b : new JButton[]{btnCadastrar, btnPesquisar, btnProcessar, btnOrdenar, btnSair}) {
+        for (JButton b : new JButton[]{btnCadastrar, btnPesquisar, btnProcessar, btnOrdenar, btnSair,
+                btnCancelar, btnRelatorio}) {
             b.addActionListener(this);
         }
         addWindowListener(this);
@@ -133,7 +139,39 @@ public class TelaIngressos extends JFrame implements ActionListener, WindowListe
             }
         }
 
-        // TODO (Guilherme): Processar Operação (catraca), Cancelar e Relatório
+        // PORTARIA: confere o ingresso na catraca e dá baixa
+        if (origem == btnProcessar) {
+            try {
+                Ingresso ingresso = bilheteria.validarNaCatraca(lerCodigo());
+                txtRelatorio.append(ingresso.gerarComprovanteAcesso() + "\n");
+            } catch (NumberFormatException ex) {
+                mostrarErro("Digite um código numérico válido.");
+            } catch (IngressoInvalidoException ex) {
+                mostrarErro(ex.getMessage());
+            }
+        }
+
+        // CANCELAMENTO: pergunta antes, porque não dá para desfazer
+        if (origem == btnCancelar) {
+            try {
+                int codigo = lerCodigo();
+                int resp = JOptionPane.showConfirmDialog(this, "Deseja cancelar o ingresso " + codigo + "?",
+                        "Cancelar", JOptionPane.YES_NO_OPTION);
+                if (resp == JOptionPane.YES_OPTION) {
+                    bilheteria.cancelar(codigo);
+                    txtRelatorio.append("Cancelado: ingresso " + codigo + "\n");
+                }
+            } catch (NumberFormatException ex) {
+                mostrarErro("Digite um código numérico válido.");
+            } catch (IngressoInvalidoException ex) {
+                mostrarErro(ex.getMessage());
+            }
+        }
+
+        // RELATÓRIO: troca o texto da área pelo relatório de público
+        if (origem == btnRelatorio) {
+            txtRelatorio.setText(bilheteria.relatorioPublico());
+        }
     }
 
     /** Converte o campo Código em número; lança NumberFormatException se não for número. */
@@ -160,3 +198,13 @@ public class TelaIngressos extends JFrame implements ActionListener, WindowListe
             System.exit(0);
         }
     }
+
+    // Os 7 métodos do WindowListener precisam existir
+    @Override public void windowClosing(WindowEvent e) { fechar(); }
+    @Override public void windowOpened(WindowEvent e) {}
+    @Override public void windowClosed(WindowEvent e) {}
+    @Override public void windowIconified(WindowEvent e) {}
+    @Override public void windowDeiconified(WindowEvent e) {}
+    @Override public void windowActivated(WindowEvent e) {}
+    @Override public void windowDeactivated(WindowEvent e) {}
+}
