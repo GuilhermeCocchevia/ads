@@ -27,8 +27,15 @@ public abstract class Ingresso implements Comparable<Ingresso>, Validavel {
 
     @Override
     public void validarAcessoCatraca() throws IngressoInvalidoException {
-        // TODO: se status != VENDIDO, lançar IngressoInvalidoException com a mensagem adequada
-        //       se estiver ok, mudar status para UTILIZADO
+        // ingresso que já entrou não pode entrar de novo
+        if (status == StatusIngresso.UTILIZADO) {
+            throw new IngressoInvalidoException("Ingresso " + codigo + " já foi utilizado.");
+        } else if (status == StatusIngresso.CANCELADO) {
+            throw new IngressoInvalidoException("Ingresso " + codigo + " está cancelado.");
+        }
+
+        // passou: dá baixa no ingresso
+        status = StatusIngresso.UTILIZADO;
     }
 
     @Override
