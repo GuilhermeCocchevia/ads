@@ -41,3 +41,18 @@ agrupados em um `ButtonGroup`.
 Escolhemos o `JCheckBox`, para evitar uma classe a mais (`ButtonGroup`) na tela. Além disso,
 o método `isSelected()` do checkbox já devolve `true` ou `false`, que é exatamente o parâmetro
 `boolean meia` do método `vender` da `Bilheteria`.
+
+### 2.2 — Montagem da tela
+**O que perguntamos:**
+Como posicionar os componentes na janela e ligar os botões às regras da `Bilheteria`.
+
+**O que aprendemos:**
+Com `setLayout(null)`, cada componente é posicionado com `setBounds(x, y, largura, altura)`, a
+partir do canto superior esquerdo. A `JTextArea` fica dentro de um `JScrollPane` para ter barra de
+rolagem. Cada botão é tratado no `actionPerformed` com `try/catch`, e os erros aparecem num
+`JOptionPane`.
+
+**Como aplicamos:**
+A IA propôs um desenho da janela com as coordenadas de cada linha e gerou o layout e as ações de
+Cadastrar, Pesquisar e Ordenar, que revisamos e testamos antes do commit. A tela só chama a
+`Bilheteria` e mostra o resultado: nenhuma regra de negócio fica nela.

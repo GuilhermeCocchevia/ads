@@ -5,8 +5,9 @@ Tema 08: Sistema orientado a objetos em memória (Swing + Java Collections).
 
 ## Dupla
 | Nome | RA |
+|------|----|
 | Maurício Jampani de Souza | 1630482523023 |
-| Guilherme Rocha Cocchevia | (RA) |
+| Guilherme Rocha Cocchevia | 1630482523034 |
 
 ## O sistema
 Aplicação desktop em Java para controlar a venda de ingressos de um evento: venda de inteira e
