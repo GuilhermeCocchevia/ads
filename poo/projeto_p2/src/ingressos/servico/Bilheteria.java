@@ -24,9 +24,37 @@ public class Bilheteria {
         this.evento = evento;
     }
 
+    /** Venda (botão Cadastrar). */
     public Ingresso vender(String nomeComprador, boolean meia, String documento)
             throws IngressoInvalidoException {
-        return null;
+        // lotacao: contagem apenas de ingressos nao cancelados
+        int ocupados = 0;
+        for (Ingresso i : ingressos) {
+            if (i.getStatus() != StatusIngresso.CANCELADO) {
+                ocupados++;
+            }
+        }
+
+        // apenas > deixaria 100 > 100 passar como false e seria feita a venda do centésimo primeiro ingresso (erro)
+        if (ocupados >= evento.getCapacidade()) {
+            throw new IngressoInvalidoException("O evento atingiu lotação máxima.");
+        }
+
+        //venda de meia necessita documento
+        if (meia && (documento == null || documento.isBlank())) {
+            throw new IngressoInvalidoException("A venda de meia entrada é válida apenas após comprovação via documento com foto");
+        }
+
+        Ingresso novo;
+        if(meia) { // a tela informa se o usuário selecionou meia ou inteira
+            novo = new IngressoMeia(proximoCodigo++, nomeComprador, evento, documento);
+        } else {
+            novo = new IngressoInteira(proximoCodigo++, nomeComprador, evento);
+        }
+
+        ingressos.add(novo);
+
+        return novo;
     }
 
     /** Busca pelo código (botão Pesquisar). */

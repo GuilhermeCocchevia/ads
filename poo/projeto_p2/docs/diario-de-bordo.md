@@ -26,3 +26,18 @@ para programar em Java puro, sem Maven ou Gradle.
   `modelo`, `interfaces`, `excecoes`, `servico` e `visao`.
 - Adicionamos `bin/` e `*.class` ao `.gitignore`.
 - Compilamos pelo terminal com `javac -d bin -sourcepath src src/ingressos/Principal.java`.
+
+## 2. Interface gráfica — Swing e eventos
+
+### 2.1 — Escolha entre inteira e meia-entrada na tela
+**O que perguntamos:**
+Como o usuário deveria escolher entre ingresso inteira e meia-entrada na tela de venda.
+
+**O que a IA sugeriu:**
+Duas opções: um `JCheckBox` "Meia-entrada" ou dois `JRadioButton` ("Inteira" e "Meia")
+agrupados em um `ButtonGroup`.
+
+**O que escolhemos e por quê:**
+Escolhemos o `JCheckBox`, para evitar uma classe a mais (`ButtonGroup`) na tela. Além disso,
+o método `isSelected()` do checkbox já devolve `true` ou `false`, que é exatamente o parâmetro
+`boolean meia` do método `vender` da `Bilheteria`.
