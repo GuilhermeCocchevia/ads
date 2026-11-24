@@ -31,6 +31,18 @@ src/ingressos/
 
 A descrição de cada classe é completada conforme a implementação avança.
 
+## Divisão do trabalho
+A dupla dividiu o sistema por funcionalidade: cada integrante é responsável pela sua parte em
+todas as camadas (modelo, regras de negócio e tela).
+
+| Camada | Maurício — venda e consulta | Guilherme — portaria e relatório |
+|--------|-----------------------------|----------------------------------|
+| Modelo | `Ingresso`: `equals`, `hashCode`, `compareTo`, `toString` | `Ingresso`: `validarAcessoCatraca`; `IngressoMeia`: validação do documento; `Validavel`: método `default` |
+| Regras (`Bilheteria`) | `vender`, `pesquisar`, `ordenar` | `validarNaCatraca`, `cancelar`, `relatorioPublico` |
+| Tela (`TelaIngressos`) | Layout da janela; botões Cadastrar, Pesquisar, Ordenar e Sair | Botões Processar Operação, Cancelar e Relatório |
+
+O desenvolvimento seguiu três fases (modelo → regras de negócio → tela), testando o sistema com as duas partes integradas ao fim de cada uma. O Guilherme contribuiu por meio de um fork e Pull Requests, revisados antes do merge no repositório principal.
+
 ## Como executar
 Requisitos: JDK 17 ou superior.
 

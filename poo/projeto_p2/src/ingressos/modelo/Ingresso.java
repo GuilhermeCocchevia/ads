@@ -4,9 +4,7 @@ import ingressos.excecoes.IngressoInvalidoException;
 import ingressos.interfaces.Validavel;
 
 /**
- * Entidade principal. Abstrata: cada tipo (inteira, meia) define o próprio preço
- * e a própria regra de validação na catraca (polimorfismo).
- * Ordem natural (Comparable): código sequencial do bilhete. [POO_09]
+ * Entidade principal. Abstrata: cada tipo (inteira, meia) define o próprio preço e a própria regra de validação na catraca (polimorfismo).
  */
 public abstract class Ingresso implements Comparable<Ingresso>, Validavel {
     private int codigo;
@@ -35,26 +33,35 @@ public abstract class Ingresso implements Comparable<Ingresso>, Validavel {
 
     @Override
     public int compareTo(Ingresso outro) {
-        // TODO: comparar pelo código (-1, 0, 1), como no Cliente do Sample4
-        return 0;
+        if (this.codigo < outro.codigo) {
+            return -1; // esse ingresso vem ANTES do outro
+        }
+        if (this.codigo > outro.codigo) {
+            return 1; // esse ingresso vem DEPOIS do outro
+        }
+        return 0; // mesmo codigo, "empate"
     }
 
+    //this == o > comparação de endereço de memória
+    //this.codigo == i.codigo > comparação de valor
     @Override
     public boolean equals(Object o) {
-        // TODO: dois ingressos são iguais se tiverem o mesmo código (modelo da Pessoa do Sample1)
-        return super.equals(o);
+        if (this == o) return true;
+        if (o instanceof Ingresso i) {
+            return this.codigo == i.codigo;
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        // TODO: retornar algo baseado no código
-        return super.hashCode();
+        return this.codigo;
     }
 
+    //aparece no relatório e em pesquisar
     @Override
     public String toString() {
-        // TODO: montar uma linha legível para o relatório (código, tipo, comprador, preço, status)
-        return "Ingresso " + codigo;
+        return "Ingresso #" + codigo + " | " + getTipo() + " | " + nomeComprador + " | " + calcularPreco() + " | " + status;
     }
 
     // getters e setters feitos diretos pela ide; sem mistério
