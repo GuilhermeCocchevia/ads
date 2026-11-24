@@ -7,6 +7,12 @@ import ingressos.modelo.Ingresso;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import java.util.Collections;
+import ingressos.modelo.IngressoInteira;
+import ingressos.modelo.IngressoMeia;
+
+
 /** Guarda os ingressos em memória e concentra as regras de negócio. */
 public class Bilheteria {
     private final List<Ingresso> ingressos = new ArrayList<>();
@@ -17,18 +23,19 @@ public class Bilheteria {
         this.evento = evento;
     }
 
-    /** Venda (botão Cadastrar). */
     public Ingresso vender(String nomeComprador, boolean meia, String documento)
             throws IngressoInvalidoException {
-        // TODO: lotação esgotada → IngressoInvalidoException
-        //       criar IngressoInteira ou IngressoMeia com proximoCodigo++, adicionar na lista
         return null;
     }
 
     /** Busca pelo código (botão Pesquisar). */
     public Ingresso pesquisar(int codigo) throws IngressoInvalidoException {
-        // TODO: percorrer a lista; se não achar → IngressoInvalidoException
-        return null;
+        for (Ingresso i : ingressos) {
+            if (i.getCodigo() == codigo) {
+                return i;
+            }
+        }
+        throw new IngressoInvalidoException("Ingresso " + codigo + " não encontrado.");
     }
 
     /** Conferência na portaria com baixa (botão Processar Operação). */
@@ -44,7 +51,7 @@ public class Bilheteria {
 
     /** Ordenação natural (botão Ordenar). */
     public void ordenar() {
-        // TODO: Collections.sort(ingressos);
+       Collections.sort(ingressos);
     }
 
     /** Relatório de público para a JTextArea. */
