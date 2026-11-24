@@ -7,7 +7,7 @@ Tema 08: Sistema orientado a objetos em memória (Swing + Java Collections).
 | Nome | RA |
 |------|----|
 | Maurício Jampani de Souza | (RA) |
-| Guilherme | (RA) |
+| Guilherme Rocha Cocchevia | (RA) |
 
 ## O sistema
 Aplicação desktop em Java para controlar a venda de ingressos de um evento: venda de inteira e
@@ -30,6 +30,23 @@ src/ingressos/
 ```
 
 A descrição de cada classe é completada conforme a implementação avança.
+
+### Portaria e relatório (Guilherme)
+- **`Validavel`** (interface): método `default` `gerarComprovanteAcesso()`, que devolve
+  "ACESSO LIBERADO - " seguido dos dados do ingresso. Todo ingresso herda esse método pronto.
+- **`Ingresso`**: `validarAcessoCatraca()` barra o ingresso já utilizado ou cancelado. Se ele
+  ainda estiver vendido, dá baixa (status `UTILIZADO`).
+- **`IngressoMeia`**: sobrescreve `validarAcessoCatraca()` com a regra extra da meia (sem
+  documento comprovante, não entra) e depois chama o `super` para as regras de todo ingresso.
+- **`Bilheteria`**:
+  - `validarNaCatraca(codigo)`: pesquisa o ingresso e chama `validarAcessoCatraca()`. Não precisa
+    saber se é inteira ou meia, porque cada uma valida do seu jeito (polimorfismo).
+  - `cancelar(codigo)`: só cancela ingresso `VENDIDO`. Se já foi utilizado ou já está cancelado,
+    lança `IngressoInvalidoException`.
+  - `relatorioPublico()`: lista os ingressos e mostra quantos estão vendidos, utilizados e
+    cancelados, e a arrecadação (ingresso cancelado não entra na soma).
+- **`TelaIngressos`**: botões Processar Operação (mostra o comprovante de acesso), Cancelar (pede
+  confirmação antes) e Relatório. Os erros aparecem numa caixa de mensagem (`JOptionPane`).
 
 ## Divisão do trabalho
 A dupla dividiu o sistema por funcionalidade: cada integrante é responsável pela sua parte em
