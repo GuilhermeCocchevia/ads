@@ -10,8 +10,8 @@ public interface Validavel {
 
     /** Default: comportamento pronto, herdado por quem implementa. */
     default String gerarComprovanteAcesso() {
-        // TODO: devolver um texto tipo "ACESSO LIBERADO - ..." (pode usar toString())
-        return "ACESSO LIBERADO";
+        // texto mostrado quando o ingresso passa na catraca
+        return "ACESSO LIBERADO - " + toString();
     }
 
     /** Static: utilitário da própria interface. */

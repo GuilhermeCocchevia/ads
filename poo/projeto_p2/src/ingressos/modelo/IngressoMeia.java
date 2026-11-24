@@ -24,8 +24,12 @@ public class IngressoMeia extends Ingresso {
 
     @Override
     public void validarAcessoCatraca() throws IngressoInvalidoException {
-        // TODO: regra extra da meia: sem documento comprovante → IngressoInvalidoException
-        //       depois, chamar super.validarAcessoCatraca()
+        // regra extra da meia: precisa ter o documento que dá direito ao desconto
+        if (documentoComprovante == null || documentoComprovante.isBlank()) {
+            throw new IngressoInvalidoException("Meia-entrada sem documento comprovante.");
+        }
+
+        // depois confere as regras que valem para todo ingresso (status)
         super.validarAcessoCatraca();
     }
 
